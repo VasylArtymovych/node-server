@@ -10,14 +10,20 @@ const generateJwt = (id, email) => {
 
 const login = async (email, password) => {
   const user = await User.findOne({ email });
+
   if (!user || !(await bcrypt.compare(password, user.password))) {
     throw RequestError(401, "Email or password is wrong!");
   }
 
   const token = generateJwt(user._id, email);
 
-  // const u = await User.findOneAndUpdate({ _id: user._id }, { $set: { token } });
-  return token;
+  const userData = {
+    _id: user._id,
+    first_name: user.first_name,
+    emeil: user.email,
+  };
+
+  return { user: userData, token };
 };
 
 module.exports = login;

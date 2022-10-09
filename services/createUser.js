@@ -2,7 +2,13 @@ const bcrypt = require("bcrypt");
 const { User } = require("../models");
 const { RequestError } = require("../helpers");
 
-const add = async ({ first_name, last_name, email, phone, password }) => {
+const createUser = async ({
+  first_name,
+  last_name,
+  email,
+  phone,
+  password,
+}) => {
   if (!first_name || !email || !password) {
     throw RequestError(
       400,
@@ -25,7 +31,7 @@ const add = async ({ first_name, last_name, email, phone, password }) => {
   });
   newUser.save();
 
-  return newUser;
+  return { _id: newUser._id, first_name: newUser.first_name };
 };
 
-module.exports = add;
+module.exports = createUser;
