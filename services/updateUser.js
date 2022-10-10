@@ -15,7 +15,6 @@ const updateUser = async (id, body) => {
   if (!user) {
     throw RequestError(400, "User not found");
   }
-
   return user;
 };
 
